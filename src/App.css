@@ -1,0 +1,10 @@
+.squares{
+    display: grid;
+    grid-template-columns: repeat(3, 32px);
+    gap: 0;
+}
+.square{
+    height: 32px;
+    width: 32px;
+    vertical-align: middle;
+}

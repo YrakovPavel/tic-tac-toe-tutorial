@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import "./App.css"
 
-function Square({ value, onSquareClick }) {
+function Square({ value, isWin, onSquareClick }) {
   return (
-      <button className="square" onClick={onSquareClick}>
+      <button className={"square " + (isWin ? 'win' : '')} onClick={onSquareClick}>
         {value}
       </button>
   );
@@ -19,10 +19,10 @@ function Board({ xIsNext, squares, onPlay }) {
     onPlay(nextSquares);
   }
 
-  const winner = calculateWinner(squares);
+  const winnerPosition = calculateWinner(squares);
   let status;
-  if (winner) {
-    status = 'Winner: ' + winner;
+  if (winnerPosition) {
+    status = 'Winner: ' + (xIsNext ? 'O' : 'X');
   } else {
     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
   }
@@ -32,7 +32,12 @@ function Board({ xIsNext, squares, onPlay }) {
         <div className="status">{status}</div>
         <div className="squares">
           {Array.from({length: 9}, (_, index)=>{
-            return <Square key={index} value={squares[index]} onSquareClick={() => handleClick(index)} />
+            return <Square
+                key={index}
+                isWin={winnerPosition &&
+                    (index === winnerPosition[0] || index === winnerPosition[1] || index === winnerPosition[2])}
+                value={squares[index]}
+                onSquareClick={() => handleClick(index)} />
           })}
         </div>
       </>
@@ -90,7 +95,7 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return lines[i];
     }
   }
   return null;

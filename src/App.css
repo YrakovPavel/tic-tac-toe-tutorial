@@ -3,8 +3,15 @@
     grid-template-columns: repeat(3, 32px);
     gap: 0;
 }
+
 .square{
     height: 32px;
     width: 32px;
     vertical-align: middle;
+}
+
+.win{
+    border-color: orange;
+    background-color: orange;
+    color: darkblue;
 }
